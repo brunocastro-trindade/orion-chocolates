@@ -53,9 +53,9 @@ export async function* runAgent(historico: Message[]): AsyncGenerator<Evento> {
   for (let passo = 0; passo < 6; passo++) {
     const resp = await anthropic.messages.create({
       model: ANTHROPIC_MODEL,
-      // Respostas de atendimento são curtas (FAQ, produto, loja). 400 cobre
-      // o pior caso real e evita desperdício de tokens com o Haiku.
-      max_tokens: 400,
+      // Teto, não alvo: só tokens gerados são cobrados. 400 cortava respostas
+      // de alergia no meio da frase quando havia tool_use de handoff.
+      max_tokens: 1024,
       system: systemBlocks,
       tools: TOOLS,
       messages: msgs as Anthropic.MessageParam[],
