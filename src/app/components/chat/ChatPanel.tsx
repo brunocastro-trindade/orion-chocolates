@@ -1,33 +1,15 @@
 // Painel aberto do chat (header, lista, atalhos e input).
 // Fica num container `fixed` isolado — não herda transform do site.
-import { useEffect } from "react";
 import { useChat } from "./useChat";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 import QuickMenu from "./QuickMenu";
 
-const BOAS_VINDAS = `Olá! Sou o assistente virtual da Chocolates Orion. Como posso ajudar? 🍫
-
-1 – Produtos
-2 – Contatos
-3 – Endereços
-4 – Pedidos`;
+// Mesmo texto de config/mensagens.yaml (boas_vindas); o front não lê o YAML.
+const BOAS_VINDAS = "Olá! Sou o assistente virtual da Chocolates Orion. Como posso ajudar? 🍫";
 
 export default function ChatPanel({ onFechar }: { onFechar: () => void }) {
   const { messages, acoes, carregando, enviar, resetar } = useChat();
-
-  // Semeia a mensagem de boas-vindas na primeira abertura.
-  useEffect(() => {
-    if (messages.length === 0) {
-      // Injeção direta no estado via mensagem síntetica — renderiza como assistant,
-      // sem passar pelo modelo.
-      const id = (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Math.random())) as string;
-      // Hack: usamos enviar via estado interno; o useChat não expõe push direto,
-      // então mostramos a mensagem localmente aqui como texto fixo no header.
-      // (Simplificação consciente: boas_vindas é visual, não vai ao histórico.)
-      void id;
-    }
-  }, [messages.length]);
 
   return (
     <div
@@ -70,7 +52,10 @@ export default function ChatPanel({ onFechar }: { onFechar: () => void }) {
       </header>
 
       {messages.length === 0 ? (
-        <div className="px-4 pt-3 pb-1 whitespace-pre-line text-sm leading-relaxed text-neutral-700">{BOAS_VINDAS}</div>
+        <div className="px-4 pt-4 pb-2 text-sm leading-relaxed text-neutral-700">
+          <p>{BOAS_VINDAS}</p>
+          <p className="mt-1 text-xs text-neutral-500">Escolha uma opção ou digite sua pergunta.</p>
+        </div>
       ) : null}
 
       <MessageList messages={messages} acoes={acoes} />

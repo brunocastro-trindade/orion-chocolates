@@ -47,3 +47,10 @@ describe("filtraSaida", () => {
     expect(r.tipo).toBe("bloqueado");
   });
 });
+
+describe("filtraSaida preserva formatação", () => {
+  it("mantém quebras de linha entre parágrafos e itens", () => {
+    const texto = "**Unidade Centro**\n- WhatsApp\n\n**Unidade Park Europeu**\n- Telefone";
+    expect(filtraSaida(texto, false).texto).toBe(texto);
+  });
+});

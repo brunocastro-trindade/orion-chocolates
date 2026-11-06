@@ -1,13 +1,9 @@
 # Mensagens fixas aprovadas pelo cliente (P13, P40, P42).
 # USAR LITERALMENTE. Qualquer ajuste de redação passa pelo cliente.
 
-boas_vindas: |
-  Olá! Sou o assistente virtual da Chocolates Orion. Como posso ajudar? 🍫
-
-  1 – Produtos
-  2 – Contatos
-  3 – Endereços
-  4 – Pedidos
+# As 4 opções (Produtos, Contatos, Endereços, Pedidos) são os botões do widget;
+# não repetir a lista no texto. Texto exibido pelo front (ChatPanel.tsx).
+boas_vindas: "Olá! Sou o assistente virtual da Chocolates Orion. Como posso ajudar? 🍫"
 
 encerramento: "Agradecemos o seu contato. Estamos sempre à disposição para mais informações."
 

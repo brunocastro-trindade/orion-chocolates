@@ -18,11 +18,11 @@
 
 ## Retirada em loja
 
-- Retirada apenas na unidade Centro (Rua Curt Hering, 226), das 9h às 18h.
+- Retirada apenas na unidade Centro, das 9h às 18h.
 - Para retirar: apresente o nome usado na compra e o número do pedido.
 
 ## Acompanhamento
 
 Status, previsão de entrega e rastreio ficam no próprio site de delivery.
 
-Se houver atraso, endereço incorreto, ausência na entrega ou outro problema: WhatsApp +55 47 99670-2584. A equipe também pode entrar em contato pelo WhatsApp caso identifique um problema.
+Se houver atraso, endereço incorreto, ausência na entrega ou outro problema: WhatsApp da unidade Centro. A equipe também pode entrar em contato pelo WhatsApp caso identifique um problema.
