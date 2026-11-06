@@ -2,8 +2,16 @@
 // Mantém a lista de mensagens, a mensagem do assistant em progresso e a ação
 // (botão WhatsApp) que acompanha a resposta atual.
 import { useCallback, useMemo, useRef, useState } from "react";
-import { streamChat } from "./chatApi";
+import { ChatErro, streamChat } from "./chatApi";
 import type { ChatAction, Message } from "./types";
+
+const MSG_FALHA = "Não consegui responder agora. Tente de novo em instantes ou fale com a equipe pelo WhatsApp.";
+const MSG_LIMITE = "Muitas mensagens em pouco tempo. Aguarde um minuto e tente de novo.";
+
+// Texto mostrado no balão quando a requisição falha (nunca deixar o "…" parado).
+function mensagemDeErro(e: unknown): string {
+  return e instanceof ChatErro && e.status === 429 ? MSG_LIMITE : MSG_FALHA;
+}
 
 function uid() {
   return (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : String(Math.random())) as string;
@@ -49,8 +57,14 @@ export function useChat() {
         }
       }
     } catch (e) {
-      console.error("[chat] erro:", e);
+      if (!(e instanceof DOMException && e.name === "AbortError")) {
+        console.error("[chat] erro:", e);
+        const texto = mensagemDeErro(e);
+        setMessages((m) => m.map((msg) => (msg.id === assistantId && !msg.content ? { ...msg, content: texto } : msg)));
+      }
     } finally {
+      // Stream terminou sem nenhum texto: mostra a falha em vez do "…".
+      setMessages((m) => m.map((msg) => (msg.id === assistantId && !msg.content ? { ...msg, content: MSG_FALHA } : msg)));
       setCarregando(false);
       abortRef.current = null;
     }

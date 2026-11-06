@@ -19,6 +19,10 @@ export function dentroRateLimit(ip: string): boolean {
 
 // Mantém apenas as últimas N mensagens — protege contra prompts enormes e
 // mantém o uso de tokens previsível.
-export function cortaHistorico<T>(msgs: T[]): T[] {
-  return msgs.slice(-HISTORICO_MAX);
+// O corte não pode começar por resposta do assistente: a API exige que a
+// conversa comece pelo usuário.
+export function cortaHistorico<T extends { role: string }>(msgs: T[]): T[] {
+  const cortado = msgs.slice(-HISTORICO_MAX);
+  while (cortado.length > 1 && cortado[0].role !== "user") cortado.shift();
+  return cortado;
 }

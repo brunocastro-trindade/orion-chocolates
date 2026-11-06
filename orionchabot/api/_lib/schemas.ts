@@ -3,17 +3,28 @@
 // tenham UMA única fonte de verdade.
 import { z } from "zod";
 
-const MAX_MESSAGE_CHARS = 500;
-const MAX_MESSAGES = 10;
+// Só a mensagem nova do cliente tem o limite curto; respostas do bot que voltam
+// no histórico podem ser longas (listas de produtos). O servidor corta o
+// histórico depois (cortaHistorico), então aceitamos mais mensagens aqui.
+const MAX_USER_CHARS = 500;
+const MAX_HISTORICO_CHARS = 4000;
+const MAX_MESSAGES = 60;
 
 export const MessageSchema = z.object({
   role: z.enum(["user", "assistant"]),
-  content: z.string().min(1).max(MAX_MESSAGE_CHARS),
+  content: z.string().min(1).max(MAX_HISTORICO_CHARS),
 });
 export type Message = z.infer<typeof MessageSchema>;
 
 export const ChatRequestSchema = z.object({
-  messages: z.array(MessageSchema).min(1).max(MAX_MESSAGES),
+  messages: z
+    .array(MessageSchema)
+    .min(1)
+    .max(MAX_MESSAGES)
+    .refine((ms) => {
+      const ultima = ms[ms.length - 1];
+      return ultima.role === "user" && ultima.content.length <= MAX_USER_CHARS;
+    }, "a última mensagem deve ser do cliente, com até 500 caracteres"),
   sessionId: z.string().uuid(),
 });
 export type ChatRequest = z.infer<typeof ChatRequestSchema>;
