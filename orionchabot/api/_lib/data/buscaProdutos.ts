@@ -56,7 +56,7 @@ export function fichaParaModelo(p: Produto): Record<string, unknown> {
   return ficha;
 }
 
-function normaliza(s: string): string {
+export function normaliza(s: string): string {
   return s
     .toLowerCase()
     .normalize("NFD")
@@ -72,7 +72,7 @@ function pontua(p: Produto, q: string): number {
   if (!q) return 0;
   const alvo = {
     nome: normaliza(p.nome),
-    categoria: normaliza(p.categoria),
+    categoria: normaliza(`${p.categoria} ${p.formato}`),
     descricao: normaliza(p.descricao),
     ingredientes: normaliza(p.ingredientes),
   };

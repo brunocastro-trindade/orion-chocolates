@@ -12,6 +12,9 @@ Arquivo: `data/produtos.csv`, UTF-8, separador `,` (ou `;` se o Excel do cliente
 | `nome` | texto | sim | Nome comercial |
 | `categoria` | texto | sim | Uma de: pastilha, chocolate-ao-leite, alto-cacau, chocolate-branco, sem-acucar, bombom, tablete, trufa, pao-de-mel, dragea, sazonal, outro |
 | `descricao` | texto | sim | Descrição curta |
+| `codigo` | texto | não | Código da Planilha Sekoia (não é único) |
+| `formato` | texto | não | Formato da planilha (Ovos, Coelhos, Drágeas…); entra na busca |
+| `embalagens` | lista (`;`) | não | Ex.: Lata Borboleta (420g);Pacote (140g). Sem preço |
 | `sabor` | texto | não | Sabor |
 | `recheio` | texto | não | Recheio |
 | `tipo_chocolate_atual` | texto | não | Nome usado hoje (ex.: ao leite, meio amargo, amargo, branco) |
@@ -19,12 +22,12 @@ Arquivo: `data/produtos.csv`, UTF-8, separador `,` (ou `;` se o Excel do cliente
 | `teor_cacau` | número | não | Percentual, se informado no rótulo |
 | `peso_g` | número | não | Peso em gramas |
 | `qtd_embalagem` | número | não | Unidades por embalagem |
-| `ingredientes` | texto | sim | Texto literal do rótulo |
-| `contem_gluten` | sim/nao | sim | Tem ingrediente com glúten na receita |
-| `contem_leite` | sim/nao | sim | Tem leite ou derivados na receita |
+| `ingredientes` | texto | se confirmado | Texto literal do rótulo |
+| `contem_gluten` | sim/nao | se confirmado | Tem ingrediente com glúten na receita |
+| `contem_leite` | sim/nao | se confirmado | Tem leite ou derivados na receita |
 | `oleaginosas_na_receita` | lista (`;`) | sim | Ex.: castanha-de-caju;amendoim. Vazio se nenhuma |
-| `contem_soja` | sim/nao | sim | Tem soja na receita (ex.: lecitina de soja) |
-| `contem_ovo` | sim/nao | sim | Tem ovo ou derivados na receita |
+| `contem_soja` | sim/nao | se confirmado | Tem soja na receita (ex.: lecitina de soja) |
+| `contem_ovo` | sim/nao | se confirmado | Tem ovo ou derivados na receita |
 | `pode_conter` | lista (`;`) | não | Vestígios declarados no rótulo ("pode conter …"). Ex.: leite;amendoim;glúten |
 | `adocante` | texto | não | Adoçante usado, se houver (ex.: maltitol) |
 | `sem_acucar` | sim/nao | sim | Produto sem adição de açúcar (maltitol) |
@@ -40,10 +43,21 @@ Arquivo: `data/produtos.csv`, UTF-8, separador `,` (ou `;` se o Excel do cliente
 | `ativo` | sim/nao | sim | Produto visível ao bot |
 | `atualizado_em` | data (AAAA-MM-DD) | sim | Última revisão |
 
+## Fonte provisória: Planilha Sekoia
+
+Até o cliente definir a fonte principal, o catálogo vem de `docs/Planilha Sekoia.xlsx` (fora do git: tem preços). Para atualizar:
+
+```
+cd orionchabot && pnpm import:planilha   # gera data/produtos.csv
+cp data/produtos.csv ../data/produtos.csv
+```
+
+O importador (`scripts/importaPlanilha.ts`) ignora preços, remove códigos internos "(E042)" das embalagens, marca todo produto com `info_alergenos_confirmada = nao` e imprime avisos de linhas para revisar. A planilha não traz ingredientes nem alergênicos.
+
 ## Regras de validação (zod, na carga)
 
 - `sku` único; `categoria` dentro da lista; booleanos só `sim`/`nao`.
-- `ingredientes`, `contem_gluten`, `contem_leite`, `oleaginosas_na_receita`, `contem_soja`, `contem_ovo` e `info_alergenos_confirmada` são obrigatórios: sem eles o produto **não** é carregado e a carga registra o erro.
+- `info_alergenos_confirmada` é obrigatório. Quando for `sim`, `ingredientes`, `contem_gluten`, `contem_leite`, `contem_soja` e `contem_ovo` também são: sem eles o produto **não** é carregado. Quando for `nao`, os campos de alergia podem ficar vazios (vazio = não informado, nunca "não contém").
 - Linhas com `ativo = nao` não aparecem nas buscas.
 - Produto com `sazonal = sim` fora do `periodo_sazonal` (comparando com a data atual no fuso de Brasília) é tratado como indisponível na temporada.
 

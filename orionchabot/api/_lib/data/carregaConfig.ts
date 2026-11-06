@@ -27,10 +27,17 @@ type MensagensYaml = {
   falha_tecnica: string;
   aviso_alergia: string;
   label_whatsapp: string;
+  produto_embalagens: string;
+  produto_sazonal: string;
+  produto_delivery: string;
+  produto_escolha: string;
+  produto_escolha_mais: string;
 };
 
 type AlergiaYaml = {
   gatilhos: string[];
+  gatilhos_ingrediente: string[];
+  verbos_composicao: string[];
   assuntos_humano: string[];
 };
 

@@ -12,6 +12,7 @@ function uid() {
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [acoes, setAcoes] = useState<Record<string, ChatAction>>({});
+  const [opcoes, setOpcoes] = useState<Record<string, string[]>>({});
   const [carregando, setCarregando] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const sessionId = useMemo(() => uid(), []);
@@ -37,6 +38,8 @@ export function useChat() {
           );
         } else if (ev.event === "action") {
           setAcoes((a) => ({ ...a, [assistantId]: ev.data }));
+        } else if (ev.event === "opcoes") {
+          setOpcoes((o) => ({ ...o, [assistantId]: ev.data.opcoes }));
         } else if (ev.event === "error") {
           setMessages((m) =>
             m.map((msg) => (msg.id === assistantId ? { ...msg, content: ev.data.message } : msg)),
@@ -63,8 +66,9 @@ export function useChat() {
     abortRef.current?.abort();
     setMessages([]);
     setAcoes({});
+    setOpcoes({});
     setCarregando(false);
   }, []);
 
-  return { messages, acoes, carregando, enviar, cancelar, resetar };
+  return { messages, acoes, opcoes, carregando, enviar, cancelar, resetar };
 }

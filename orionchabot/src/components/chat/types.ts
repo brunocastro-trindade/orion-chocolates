@@ -17,5 +17,6 @@ export type ChatAction = {
 export type StreamEvent =
   | { event: "delta"; data: { text: string } }
   | { event: "action"; data: ChatAction }
+  | { event: "opcoes"; data: { opcoes: string[] } }
   | { event: "error"; data: { message: string } }
   | { event: "done"; data: Record<string, never> };

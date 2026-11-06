@@ -18,3 +18,10 @@ aviso_alergia: |
   Importante sobre alergias e restrições: a Orion é uma empresa de pequeno porte e não possui área de produção totalmente segregada. Mesmo quando um ingrediente não faz parte da receita, não é possível garantir ausência de vestígios em nenhum produto. Vestígios possíveis em qualquer item: leite, castanha-de-caju, castanha-do-pará, amendoim, avelã, amêndoas e glúten. Para alergias severas, consulte sempre a embalagem e a nossa equipe antes de consumir.
 
 label_whatsapp: "Falar com a equipe no WhatsApp"
+
+# Respostas automáticas de produto (sem modelo). Preço nunca aparece: sempre delivery.
+produto_embalagens: "Embalagens: {lista}"
+produto_sazonal: "Produto da linha {periodo}. Confira a disponibilidade no delivery."
+produto_delivery: "Preço e disponibilidade: [Ir ao delivery]({link})"
+produto_escolha: "Encontrei {n} produtos. Qual destes você procura?"
+produto_escolha_mais: "Não achou? Digite mais detalhes do nome."

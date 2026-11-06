@@ -54,3 +54,26 @@ describe("filtraSaida preserva formatação", () => {
     expect(filtraSaida(texto, false).texto).toBe(texto);
   });
 });
+
+describe("gatilhos fortes x ingredientes", () => {
+  it("ingrediente que é nome de produto não é alergia forte", () => {
+    const r = detectaIntencao("quero um ovo de páscoa ao leite");
+    expect(r.modoAlergia).toBe(true);
+    expect(r.alergiaForte).toBe(false);
+  });
+
+  it("pergunta explícita de alergia é forte", () => {
+    expect(detectaIntencao("sou alérgico a amendoim").alergiaForte).toBe(true);
+    expect(detectaIntencao("tem vestígios de castanha?").alergiaForte).toBe(true);
+  });
+
+  it("[produto] tem [ingrediente]? é pergunta de composição", () => {
+    expect(detectaIntencao("o bombom ao leite tem amendoim?").alergiaForte).toBe(true);
+    expect(detectaIntencao("pão de mel leva castanha?").alergiaForte).toBe(true);
+  });
+
+  it("verbo no início é pedido de produto", () => {
+    expect(detectaIntencao("vocês têm ovo de páscoa?").alergiaForte).toBe(false);
+    expect(detectaIntencao("tem bombom com amendoim?").alergiaForte).toBe(false);
+  });
+});

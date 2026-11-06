@@ -11,10 +11,12 @@ import { estaAberto } from "../guardrails/estaAberto";
 import { geraLinkWhatsapp } from "../handoff/geraLinkWhatsapp";
 import { carregaConfig } from "../data/carregaConfig";
 import type { Message } from "../schemas";
+import { respostaProduto } from "./respostaProduto";
 
 type Evento =
   | { tipo: "delta"; texto: string }
   | { tipo: "action"; url: string; label: string }
+  | { tipo: "opcoes"; opcoes: string[] }
   | { tipo: "error"; mensagem: string }
   | { tipo: "done" };
 
@@ -33,6 +35,17 @@ export async function* runAgent(historico: Message[]): AsyncGenerator<Evento> {
     yield { tipo: "delta", texto: mensagens.informacao_ausente };
     yield { tipo: "action", url: link.url, label: link.label };
     if (!estaAberto()) yield { tipo: "delta", texto: `\n\n${mensagens.fora_horario}` };
+    yield { tipo: "done" };
+    return;
+  }
+
+  // Produto citado pelo nome: ficha curta por código, sem modelo. Pergunta de
+  // alergia nunca passa por aqui; ingrediente que é nome de produto ("ao leite",
+  // "ovo de Páscoa") só vira alergia se não casar com o catálogo.
+  const produto = intencao.alergiaForte ? null : respostaProduto(ultima?.content ?? "");
+  if (produto) {
+    yield { tipo: "delta", texto: produto.texto };
+    if (produto.opcoes.length) yield { tipo: "opcoes", opcoes: produto.opcoes };
     yield { tipo: "done" };
     return;
   }

@@ -29,6 +29,17 @@ const SimNao = z.preprocess((v) => {
   return v;
 }, z.boolean());
 
+// Campo de alergia: vazio = "não informado" (undefined), nunca "não contém".
+const SimNaoOpt = z.preprocess((v) => {
+  if (typeof v === "boolean") return v;
+  if (typeof v !== "string") return undefined;
+  const s = v.trim().toLowerCase();
+  if (s === "") return undefined;
+  if (s === "sim") return true;
+  if (s === "nao" || s === "não") return false;
+  return v;
+}, z.boolean().optional());
+
 const NumOpt = z.preprocess((v) => {
   if (v === "" || v == null) return undefined;
   if (typeof v === "number") return v;
@@ -59,9 +70,12 @@ export const CategoriaSchema = z.enum([
 
 export const ProdutoSchema = z.object({
   sku: z.string().min(1),
+  codigo: z.string().optional().default(""),
   nome: z.string().min(1),
   categoria: CategoriaSchema,
+  formato: z.string().optional().default(""),
   descricao: z.string().min(1),
+  embalagens: ListaPontoVirgula,
   sabor: z.string().optional().default(""),
   recheio: z.string().optional().default(""),
   tipo_chocolate_atual: z.string().optional().default(""),
@@ -69,16 +83,16 @@ export const ProdutoSchema = z.object({
   teor_cacau: NumOpt,
   peso_g: NumOpt,
   qtd_embalagem: NumOpt,
-  ingredientes: z.string().min(1),
-  contem_gluten: SimNao,
-  contem_leite: SimNao,
+  ingredientes: z.string().optional().default(""),
+  contem_gluten: SimNaoOpt,
+  contem_leite: SimNaoOpt,
   oleaginosas_na_receita: ListaPontoVirgula,
-  contem_soja: SimNao,
-  contem_ovo: SimNao,
+  contem_soja: SimNaoOpt,
+  contem_ovo: SimNaoOpt,
   pode_conter: ListaPontoVirgula,
   adocante: z.string().optional().default(""),
-  sem_acucar: SimNao,
-  sem_lactose: SimNao,
+  sem_acucar: SimNaoOpt,
+  sem_lactose: SimNaoOpt,
   info_alergenos_confirmada: SimNao,
   validade_dias: NumOpt,
   conservacao: z.string().optional().default(""),
@@ -89,5 +103,13 @@ export const ProdutoSchema = z.object({
   url_foto: z.string().optional().default(""),
   ativo: SimNao,
   atualizado_em: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+}).superRefine((p, ctx) => {
+  // Ficha confirmada pela equipe precisa estar completa; sem confirmação os
+  // campos de alergia podem ficar vazios (o bot encaminha ao humano).
+  if (!p.info_alergenos_confirmada) return;
+  const obrigatorios = [p.contem_gluten, p.contem_leite, p.contem_soja, p.contem_ovo];
+  if (!p.ingredientes || obrigatorios.some((v) => v === undefined)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "ficha confirmada exige ingredientes e contem_gluten/leite/soja/ovo" });
+  }
 });
 export type Produto = z.infer<typeof ProdutoSchema>;

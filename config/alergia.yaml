@@ -17,7 +17,6 @@ gatilhos:
   - celiaca
   - celíaca
   - lactose
-  - leite  # ambíguo, mas com outros sinais costuma indicar alergia
   - diabetes
   - diabetico
   - diabético
@@ -44,6 +43,20 @@ gatilhos:
   - vestígio
   - contaminacao
   - contaminação
+  - maltitol
+  - adocante
+  - adoçante
+  - pode conter
+
+# Ingredientes que também aparecem em nomes de produto ("ao leite", "ovo de Páscoa",
+# "drágea de castanha"). Só ativam o modo alergia quando a mensagem NÃO é o
+# pedido de um produto do catálogo (ver respostaProduto em runAgent).
+# "[produto] tem/leva [ingrediente]?" é pergunta de composição (alergia forte);
+# "tem [produto]?" com o verbo no início é pedido de produto.
+verbos_composicao: [tem, contem, contém, leva, possui, vai]
+
+gatilhos_ingrediente:
+  - leite
   - amendoim
   - castanha
   - avela
@@ -54,10 +67,6 @@ gatilhos:
   - soja
   - ovo
   - ovos
-  - maltitol
-  - adocante
-  - adoçante
-  - pode conter
 
 # Assuntos que SEMPRE vão para o humano (P10). Match no texto ativa handoff direto.
 assuntos_humano:

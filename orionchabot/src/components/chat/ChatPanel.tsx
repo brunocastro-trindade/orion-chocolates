@@ -9,7 +9,7 @@ import QuickMenu from "./QuickMenu";
 const BOAS_VINDAS = "Olá! Sou o assistente virtual da Chocolates Orion. Como posso ajudar? 🍫";
 
 export default function ChatPanel({ onFechar }: { onFechar: () => void }) {
-  const { messages, acoes, carregando, enviar, resetar } = useChat();
+  const { messages, acoes, opcoes, carregando, enviar, resetar } = useChat();
 
   return (
     <div
@@ -58,7 +58,7 @@ export default function ChatPanel({ onFechar }: { onFechar: () => void }) {
         </div>
       ) : null}
 
-      <MessageList messages={messages} acoes={acoes} />
+      <MessageList messages={messages} acoes={acoes} opcoes={opcoes} onEscolher={enviar} desativado={carregando} />
 
       {messages.length === 0 ? <QuickMenu onEscolher={enviar} desativado={carregando} /> : null}
 

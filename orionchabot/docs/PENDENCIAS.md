@@ -6,7 +6,7 @@ Enquanto um item estiver pendente, o bot **não inventa**: usa a mensagem de inf
 
 | # | Origem | Pendência |
 |---|---|---|
-| 1 | P15 | Campos de cada produto: o cliente não respondeu. Validar o schema de `SCHEMA-PRODUTOS.md` e enviar o CSV real com rótulos e alergênicos |
+| 1 | P15 | Catálogo provisório importado da Planilha Sekoia (2026-11-06, 310 itens, sem preço). Falta: definir a fonte principal do catálogo e enviar a ficha de ingredientes e alergênicos por produto |
 | 2 | P8 | Não foi enviada a lista das 10 perguntas mais frequentes com exemplos reais; só os temas (composição, alergênicos, tipos de chocolate, sazonais, encomendas) |
 | 3 | P33 | Texto contraditório: diz que o chatbot "não deve encaminhar ao atendimento humano" e também não conceder soluções. Provável erro de digitação. Adotado: **encaminhar ao humano** e não prometer nada. Confirmar |
 | 4 | P36 | Frase incompleta sobre grandes volumes e reservas ("as regras para grandes volumes são e as regras para reservas são..."). Adotado: humano atende. Confirmar |
