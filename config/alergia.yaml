@@ -51,6 +51,13 @@ gatilhos:
   - amendoa
   - amêndoa
   - oleaginosa
+  - soja
+  - ovo
+  - ovos
+  - maltitol
+  - adocante
+  - adoçante
+  - pode conter
 
 # Assuntos que SEMPRE vão para o humano (P10). Match no texto ativa handoff direto.
 assuntos_humano:

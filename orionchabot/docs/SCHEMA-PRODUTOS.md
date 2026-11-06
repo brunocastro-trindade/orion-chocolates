@@ -23,6 +23,10 @@ Arquivo: `data/produtos.csv`, UTF-8, separador `,` (ou `;` se o Excel do cliente
 | `contem_gluten` | sim/nao | sim | Tem ingrediente com glúten na receita |
 | `contem_leite` | sim/nao | sim | Tem leite ou derivados na receita |
 | `oleaginosas_na_receita` | lista (`;`) | sim | Ex.: castanha-de-caju;amendoim. Vazio se nenhuma |
+| `contem_soja` | sim/nao | sim | Tem soja na receita (ex.: lecitina de soja) |
+| `contem_ovo` | sim/nao | sim | Tem ovo ou derivados na receita |
+| `pode_conter` | lista (`;`) | não | Vestígios declarados no rótulo ("pode conter …"). Ex.: leite;amendoim;glúten |
+| `adocante` | texto | não | Adoçante usado, se houver (ex.: maltitol) |
 | `sem_acucar` | sim/nao | sim | Produto sem adição de açúcar (maltitol) |
 | `sem_lactose` | sim/nao | sim | Produto sem lactose |
 | `info_alergenos_confirmada` | sim/nao | sim | A equipe conferiu os campos de alergia com o rótulo. Se `nao`, o bot encaminha ao humano |
@@ -39,7 +43,7 @@ Arquivo: `data/produtos.csv`, UTF-8, separador `,` (ou `;` se o Excel do cliente
 ## Regras de validação (zod, na carga)
 
 - `sku` único; `categoria` dentro da lista; booleanos só `sim`/`nao`.
-- `ingredientes`, `contem_gluten`, `contem_leite`, `oleaginosas_na_receita` e `info_alergenos_confirmada` são obrigatórios: sem eles o produto **não** é carregado e a carga registra o erro.
+- `ingredientes`, `contem_gluten`, `contem_leite`, `oleaginosas_na_receita`, `contem_soja`, `contem_ovo` e `info_alergenos_confirmada` são obrigatórios: sem eles o produto **não** é carregado e a carga registra o erro.
 - Linhas com `ativo = nao` não aparecem nas buscas.
 - Produto com `sazonal = sim` fora do `periodo_sazonal` (comparando com a data atual no fuso de Brasília) é tratado como indisponível na temporada.
 
@@ -49,11 +53,13 @@ Os preços oficiais e o estoque estão no delivery e mudam manualmente. Colocá-
 
 ## Como o bot usa os campos de alergia
 
-Os campos `contem_*`, `oleaginosas_na_receita` e `ingredientes` descrevem a **receita**, não garantem ausência de vestígios. Qualquer resposta sobre alergia deve ser acompanhada do aviso fixo de contaminação cruzada (ver `REGRAS-DE-NEGOCIO.md`, seção 4). `info_alergenos_confirmada = nao` força encaminhamento ao humano.
+Os campos `contem_*`, `oleaginosas_na_receita` e `ingredientes` descrevem a **receita**, não garantem ausência de vestígios. Qualquer resposta sobre alergia deve ser acompanhada do aviso fixo de contaminação cruzada (ver `REGRAS-DE-NEGOCIO.md`, seção 4). `info_alergenos_confirmada = nao` força encaminhamento ao humano: o código remove os campos de alergia da ficha enviada ao modelo (`fichaParaModelo` em `api/_lib/data/buscaProdutos.ts`), então ele não tem o que afirmar.
+
+Soja e ovo entram como alergênicos de declaração obrigatória (ANVISA RDC 26/2015). `pode_conter` deve copiar a frase de vestígios do rótulo.
 
 ## Linha de exemplo (apenas ilustrativa, com marcadores)
 
 ```
-sku,nome,categoria,descricao,ingredientes,contem_gluten,contem_leite,oleaginosas_na_receita,sem_acucar,sem_lactose,info_alergenos_confirmada,sazonal,sob_encomenda,ativo,atualizado_em
-<SKU>,<Nome do produto>,pao-de-mel,<descrição>,<texto do rótulo>,sim,sim,castanha-de-caju,nao,nao,nao,nao,nao,sim,2026-11-05
+sku,nome,categoria,descricao,ingredientes,contem_gluten,contem_leite,oleaginosas_na_receita,contem_soja,contem_ovo,pode_conter,adocante,sem_acucar,sem_lactose,info_alergenos_confirmada,sazonal,sob_encomenda,ativo,atualizado_em
+<SKU>,<Nome do produto>,pao-de-mel,<descrição>,<texto do rótulo>,sim,sim,castanha-de-caju,sim,nao,amendoim;avelã,,nao,nao,nao,nao,nao,sim,2026-11-06
 ```
