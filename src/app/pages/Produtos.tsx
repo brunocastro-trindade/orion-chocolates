@@ -16,7 +16,7 @@ import {
   useTransform,
   type AnimationPlaybackControls,
 } from "framer-motion";
-import { BLOB_PATH, BLOB_VIEWBOX, SPRING, flavors } from "@/app/pages/produtos/flavors";
+import { BLOB_PATH, BLOB_VIEWBOX, BLOB_LAYOUT, SPRING, flavors } from "@/app/pages/produtos/flavors";
 import NavigationMenu4 from "@/app/components/ui/navigation-menu-4";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -39,24 +39,14 @@ const FONT_NAV = "'Creato Display', 'DM Sans', sans-serif";
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
-// two decorative blobs glued to the can — position/rotation/mirror differs
-// per flavor so they visibly slide + spin + flip into place (Figma smart-animate style)
-const BLOB_LAYOUT: Array<{
-  left: { x: number; y: number; rotate: number; mirror: boolean };
-  right: { x: number; y: number; rotate: number; mirror: boolean };
-}> = [
-  { left: { x: -24, y: 4, rotate: 45, mirror: false }, right: { x: 74, y: -12, rotate: 78, mirror: false } },
-  { left: { x: -18, y: 12, rotate: 60, mirror: true }, right: { x: 70, y: -4, rotate: 100, mirror: false } },
-  { left: { x: -26, y: -2, rotate: 30, mirror: false }, right: { x: 78, y: -16, rotate: 62, mirror: true } },
-  { left: { x: -16, y: 16, rotate: 72, mirror: true }, right: { x: 66, y: 2, rotate: 112, mirror: false } },
-  { left: { x: -22, y: 6, rotate: 50, mirror: false }, right: { x: 72, y: -10, rotate: 86, mirror: true } },
-];
 
 export default function Produtos() {
   const [index, setIndex] = useState(0);
   const flavor = flavors[index];
   const { t } = useLanguage();
   const flavorText = t.produtosFlavors[flavor.id as keyof typeof t.produtosFlavors];
+  const productW = flavor.productW ?? PRODUCT_W;
+  const productH = flavor.productH ?? PRODUCT_H;
 
   // Scale the 1440-wide canvas to fill the viewport, same technique as the
   // main site. canvasHeight is derived from the live viewport aspect ratio
@@ -198,7 +188,7 @@ export default function Produtos() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
-  const [boxSize, setBoxSize] = useState({ w: PRODUCT_W, h: PRODUCT_H });
+  const [boxSize, setBoxSize] = useState({ w: productW, h: productH });
   // Gates the title/tagline/product reveal so they always appear together —
   // without this, the giant title (pure text, instant) flashes on screen for
   // a beat before the product photo (an async image load) catches up.
@@ -354,6 +344,31 @@ export default function Produtos() {
           </AnimatePresence>
         </div>
 
+        {/* season label (e.g. "DIA DAS BRUXAS") — upper-left, above the product */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 6 }}>
+          <AnimatePresence mode="wait">
+            {flavor.seasonLabel && (
+              <motion.p
+                key={`season-${flavor.id}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: ready ? 1 : 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35 }}
+                className="absolute font-medium text-[#e29647]"
+                style={{
+                  left: CANVAS_WIDTH * 0.104,
+                  top: canvasHeight * 0.25,
+                  fontSize: 13,
+                  fontFamily: FONT_NAV,
+                  letterSpacing: "0.1em",
+                }}
+              >
+                {flavor.seasonLabel}
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </div>
+
         {/* tagline, bottom-left — locked in place, cross-fades with the title */}
         <div className="absolute inset-0" style={{ zIndex: 6 }}>
           <AnimatePresence mode="wait">
@@ -366,7 +381,7 @@ export default function Produtos() {
               className="pointer-events-none absolute text-xl font-medium whitespace-pre-line text-white"
               style={{ left: CANVAS_WIDTH * 0.08, bottom: canvasHeight * 0.18, fontFamily: FONT_NAV }}
             >
-              {flavorText.tagline.join("\n")}
+              {flavorText.tagline.filter(Boolean).join("\n")}
             </motion.p>
           </AnimatePresence>
         </div>
@@ -381,8 +396,8 @@ export default function Produtos() {
           onClick={onClickProduct}
           className="absolute top-1/2 left-1/2 z-10 cursor-grab active:cursor-grabbing"
           style={{
-            width: PRODUCT_W,
-            height: PRODUCT_H,
+            width: productW,
+            height: productH,
             x: productParallaxX,
             y: productParallaxY,
             translateX: "-50%",

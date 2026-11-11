@@ -180,11 +180,9 @@ const pt = {
     ],
   },
   produtosFlavors: {
-    passas: { name: "PASSAS", tagline: ["ELEGANTE, MARCANTE", "E SURPREENDENTE."] as [string, string] },
-    "castanhas-de-caju": { name: "CASTANHAS DE CAJU", tagline: ["CREMOSO, SUAVE", "E IRRESISTÍVEL."] as [string, string] },
-    "ao-leite": { name: "AO LEITE", tagline: ["SUAVE, DOCE", "E ACONCHEGANTE."] as [string, string] },
-    "meio-amargo": { name: "MEIO AMARGO", tagline: ["INTENSO, EQUILIBRADO", "E INESQUECÍVEL."] as [string, string] },
-    crocante: { name: "CROCANTE", tagline: ["TEXTURA QUE SURPREENDE.", "SABOR QUE CONQUISTA."] as [string, string] },
+    "halloween-fantasma": { name: "FANTASMA", tagline: ["UM SUSTO DE SABOR.", "CHOCOLATE QUE ENCANTA."] as [string, string] },
+    "halloween-abobora": { name: "ABÓBORA", tagline: ["DOÇURAS OU TRAVESSURAS?", "ESCOLHA A DOÇURA."] as [string, string] },
+    "halloween-trick-or-treat": { name: "TRICK OR TREAT", tagline: ["O LADO DOCE DO HALLOWEEN.", ""] as [string, string] },
   },
 };
 
@@ -362,11 +360,9 @@ const en: typeof pt = {
     ],
   },
   produtosFlavors: {
-    passas: { name: "RAISINS", tagline: ["ELEGANT, BOLD", "AND SURPRISING."] },
-    "castanhas-de-caju": { name: "CASHEWS", tagline: ["CREAMY, SMOOTH", "AND IRRESISTIBLE."] },
-    "ao-leite": { name: "MILK CHOCOLATE", tagline: ["SMOOTH, SWEET", "AND COMFORTING."] },
-    "meio-amargo": { name: "SEMISWEET", tagline: ["INTENSE, BALANCED", "AND UNFORGETTABLE."] },
-    crocante: { name: "CRUNCHY", tagline: ["TEXTURE THAT SURPRISES.", "FLAVOR THAT WINS YOU OVER."] },
+    "halloween-fantasma": { name: "FANTASMA", tagline: ["A SHOCKING FLAVOR.", "CHOCOLATE THAT ENCHANTS."] },
+    "halloween-abobora": { name: "ABÓBORA", tagline: ["TRICKS OR TREATS?", "CHOOSE YOUR SWEETNESS."] },
+    "halloween-trick-or-treat": { name: "TRICK OR TREAT", tagline: ["THE SWEET SIDE OF HALLOWEEN.", ""] },
   },
 };
 
@@ -544,11 +540,9 @@ const es: typeof pt = {
     ],
   },
   produtosFlavors: {
-    passas: { name: "PASAS", tagline: ["ELEGANTE, INTENSO", "Y SORPRENDENTE."] },
-    "castanhas-de-caju": { name: "ANACARDOS", tagline: ["CREMOSO, SUAVE", "E IRRESISTIBLE."] },
-    "ao-leite": { name: "CON LECHE", tagline: ["SUAVE, DULCE", "Y RECONFORTANTE."] },
-    "meio-amargo": { name: "SEMIAMARGO", tagline: ["INTENSO, EQUILIBRADO", "E INOLVIDABLE."] },
-    crocante: { name: "CROCANTE", tagline: ["TEXTURA QUE SORPRENDE.", "SABOR QUE CONQUISTA."] },
+    "halloween-fantasma": { name: "FANTASMA", tagline: ["UN SUSTO DE SABOR.", "CHOCOLATE QUE ENCANTA."] },
+    "halloween-abobora": { name: "ABÓBORA", tagline: ["¿DULCES O TRUCOS?", "ELIGE LA DULZURA."] },
+    "halloween-trick-or-treat": { name: "TRICK OR TREAT", tagline: ["EL LADO DULCE DEL HALLOWEEN.", ""] },
   },
 };
 
