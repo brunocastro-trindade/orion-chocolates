@@ -1,8 +1,21 @@
+import type { MouseEvent } from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { abrirChat } from "@/app/components/chat/abrirChat";
+import { CONTATO_ID } from "@/app/sections/Contact";
 
 // Pills auto-size to their own text (px padding, no fixed width) — a fixed
 // width tuned for the Portuguese copy would either clip or overflow the
 // English/Spanish translations, which run shorter or longer.
+// Rolagem suave até a seção de contato (o canvas da home é escalado, então a
+// posição vem do próprio elemento, não de um offset fixo).
+function rolarParaContato(e: MouseEvent<HTMLAnchorElement>) {
+  const alvo = document.getElementById(CONTATO_ID);
+  if (!alvo) return;
+  e.preventDefault();
+  const top = alvo.getBoundingClientRect().top + window.scrollY - 100;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
 const PILL = "inline-flex h-[47px] items-center justify-center whitespace-nowrap rounded-[14px] px-8 text-[20px] leading-[1.1]";
 
 export default function Hero() {
@@ -39,12 +52,23 @@ export default function Hero() {
           {t.hero.lead}
         </p>
         <div className="animate-g7 mt-10 flex flex-wrap items-center gap-4">
-          <div className={`${PILL} bg-[#281016] text-[#e29647]`} style={{ fontFamily: "'Creato Display', sans-serif" }}>
+          {/* Abre o chatbot já com o resumo de produtos (opção "Produtos" do menu). */}
+          <button
+            type="button"
+            onClick={() => abrirChat("Produtos")}
+            className={`${PILL} cursor-pointer bg-[#281016] font-normal text-[#e29647] transition-opacity hover:opacity-90`}
+            style={{ fontFamily: "'Creato Display', sans-serif" }}
+          >
             {t.hero.ctaProducts}
-          </div>
-          <div className={`${PILL} bg-[#e29647] not-italic text-[#5c3d31]`} style={{ fontFamily: "'Creato Display', sans-serif" }}>
+          </button>
+          <a
+            href={`#${CONTATO_ID}`}
+            onClick={rolarParaContato}
+            className={`${PILL} bg-[#e29647] not-italic text-[#5c3d31] no-underline transition-opacity hover:opacity-90`}
+            style={{ fontFamily: "'Creato Display', sans-serif" }}
+          >
             {t.hero.ctaContact}
-          </div>
+          </a>
         </div>
       </div>
     </div>

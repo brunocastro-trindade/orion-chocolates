@@ -25,12 +25,15 @@ function ContactField({
   );
 }
 
+/** Âncora da seção de contato (CTA "Fale conosco" do Hero). */
+export const CONTATO_ID = "contato";
+
 export default function Contact() {
   const { t } = useLanguage();
 
   return (
     <div className="absolute contents">
-      <p className="[word-break:break-word] absolute leading-[1.1] not-italic text-[#5c3d31] text-[72px] whitespace-nowrap animate-contact" style={{ fontFamily: "'Vesper Nocturne', serif", left: 129, top: 3633 }}>{t.contact.title}</p>
+      <p id={CONTATO_ID} className="[word-break:break-word] absolute leading-[1.1] not-italic text-[#5c3d31] text-[72px] whitespace-nowrap animate-contact" style={{ fontFamily: "'Vesper Nocturne', serif", left: 129, top: 3633 }}>{t.contact.title}</p>
       <div className="[word-break:break-word] absolute leading-[0] not-italic text-[#e09748] text-[24px] animate-contact" style={{ fontFamily: "'Creato Display', 'DM Sans', sans-serif", left: 129, top: 3715, width: 522 }}>
         <p className="leading-[1.1] mb-0 animate-contact">{t.contact.leadLine1}</p>
         <p className="leading-[1.1] animate-contact">{t.contact.leadLine2}</p>
