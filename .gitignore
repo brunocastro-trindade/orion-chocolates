@@ -41,3 +41,5 @@ orionchabot/dist
 orionchabot/files.zip
 orionchabot/*.docx
 orionchabot/*.xlsx
+.vercel
+.env*

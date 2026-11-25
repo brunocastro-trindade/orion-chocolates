@@ -3,17 +3,28 @@
 // tenham UMA única fonte de verdade.
 import { z } from "zod";
 
-const MAX_MESSAGE_CHARS = 500;
-const MAX_MESSAGES = 10;
+// Só a mensagem nova do cliente tem o limite curto; respostas do bot que voltam
+// no histórico podem ser longas (listas de produtos). O servidor corta o
+// histórico depois (cortaHistorico), então aceitamos mais mensagens aqui.
+const MAX_USER_CHARS = 500;
+const MAX_HISTORICO_CHARS = 4000;
+const MAX_MESSAGES = 60;
 
 export const MessageSchema = z.object({
   role: z.enum(["user", "assistant"]),
-  content: z.string().min(1).max(MAX_MESSAGE_CHARS),
+  content: z.string().min(1).max(MAX_HISTORICO_CHARS),
 });
 export type Message = z.infer<typeof MessageSchema>;
 
 export const ChatRequestSchema = z.object({
-  messages: z.array(MessageSchema).min(1).max(MAX_MESSAGES),
+  messages: z
+    .array(MessageSchema)
+    .min(1)
+    .max(MAX_MESSAGES)
+    .refine((ms) => {
+      const ultima = ms[ms.length - 1];
+      return ultima.role === "user" && ultima.content.length <= MAX_USER_CHARS;
+    }, "a última mensagem deve ser do cliente, com até 500 caracteres"),
   sessionId: z.string().uuid(),
 });
 export type ChatRequest = z.infer<typeof ChatRequestSchema>;
@@ -28,6 +39,17 @@ const SimNao = z.preprocess((v) => {
   if (s === "nao" || s === "não" || s === "") return false;
   return v;
 }, z.boolean());
+
+// Campo de alergia: vazio = "não informado" (undefined), nunca "não contém".
+const SimNaoOpt = z.preprocess((v) => {
+  if (typeof v === "boolean") return v;
+  if (typeof v !== "string") return undefined;
+  const s = v.trim().toLowerCase();
+  if (s === "") return undefined;
+  if (s === "sim") return true;
+  if (s === "nao" || s === "não") return false;
+  return v;
+}, z.boolean().optional());
 
 const NumOpt = z.preprocess((v) => {
   if (v === "" || v == null) return undefined;
@@ -59,9 +81,12 @@ export const CategoriaSchema = z.enum([
 
 export const ProdutoSchema = z.object({
   sku: z.string().min(1),
+  codigo: z.string().optional().default(""),
   nome: z.string().min(1),
   categoria: CategoriaSchema,
+  formato: z.string().optional().default(""),
   descricao: z.string().min(1),
+  embalagens: ListaPontoVirgula,
   sabor: z.string().optional().default(""),
   recheio: z.string().optional().default(""),
   tipo_chocolate_atual: z.string().optional().default(""),
@@ -69,12 +94,16 @@ export const ProdutoSchema = z.object({
   teor_cacau: NumOpt,
   peso_g: NumOpt,
   qtd_embalagem: NumOpt,
-  ingredientes: z.string().min(1),
-  contem_gluten: SimNao,
-  contem_leite: SimNao,
+  ingredientes: z.string().optional().default(""),
+  contem_gluten: SimNaoOpt,
+  contem_leite: SimNaoOpt,
   oleaginosas_na_receita: ListaPontoVirgula,
-  sem_acucar: SimNao,
-  sem_lactose: SimNao,
+  contem_soja: SimNaoOpt,
+  contem_ovo: SimNaoOpt,
+  pode_conter: ListaPontoVirgula,
+  adocante: z.string().optional().default(""),
+  sem_acucar: SimNaoOpt,
+  sem_lactose: SimNaoOpt,
   info_alergenos_confirmada: SimNao,
   validade_dias: NumOpt,
   conservacao: z.string().optional().default(""),
@@ -85,5 +114,13 @@ export const ProdutoSchema = z.object({
   url_foto: z.string().optional().default(""),
   ativo: SimNao,
   atualizado_em: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+}).superRefine((p, ctx) => {
+  // Ficha confirmada pela equipe precisa estar completa; sem confirmação os
+  // campos de alergia podem ficar vazios (o bot encaminha ao humano).
+  if (!p.info_alergenos_confirmada) return;
+  const obrigatorios = [p.contem_gluten, p.contem_leite, p.contem_soja, p.contem_ovo];
+  if (!p.ingredientes || obrigatorios.some((v) => v === undefined)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "ficha confirmada exige ingredientes e contem_gluten/leite/soja/ovo" });
+  }
 });
 export type Produto = z.infer<typeof ProdutoSchema>;

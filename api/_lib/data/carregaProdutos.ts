@@ -4,13 +4,13 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ProdutoSchema, type Produto } from "../schemas";
 
-const CSV_PATH = join(process.cwd(), "data", "produtos.csv");
-
 let cache: Produto[] | null = null;
 
 export function carregaProdutos(): Produto[] {
   if (cache) return cache;
-  const raw = readFileSync(CSV_PATH, "utf8");
+  // PRODUTOS_CSV só é usado nos testes (fixture fixa, independente do catálogo).
+  const caminho = process.env.PRODUTOS_CSV ?? join(process.cwd(), "data", "produtos.csv");
+  const raw = readFileSync(caminho, "utf8").replace(/^﻿/, "");
   const sep = detectaSeparador(raw);
   const linhas = raw.split(/\r?\n/).filter((l) => l.trim().length > 0);
   if (linhas.length < 2) {

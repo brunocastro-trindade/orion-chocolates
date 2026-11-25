@@ -55,6 +55,7 @@ export default async function handler(req: Req, res: Res) {
     for await (const ev of runAgent(historico)) {
       if (ev.tipo === "delta") escreveSSE(res, "delta", { text: ev.texto });
       else if (ev.tipo === "action") escreveSSE(res, "action", { type: "whatsapp", url: ev.url, label: ev.label });
+      else if (ev.tipo === "opcoes") escreveSSE(res, "opcoes", { opcoes: ev.opcoes });
       else if (ev.tipo === "error") escreveSSE(res, "error", { message: ev.mensagem });
       else if (ev.tipo === "done") escreveSSE(res, "done", {});
     }

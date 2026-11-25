@@ -25,3 +25,11 @@ describe("info_lojas", () => {
     expect(dados.centro.maps_url).not.toEqual(dados.park_europeu.maps_url);
   });
 });
+
+describe("whatsapp_url das lojas", () => {
+  it("monta o wa.me com os dígitos exatos do config", () => {
+    const dados = JSON.parse(executaTool("info_lojas", {}).conteudo) as Record<string, { whatsapp_url: string }>;
+    expect(dados.centro.whatsapp_url).toBe("https://wa.me/5547996702584");
+    expect(dados.park_europeu.whatsapp_url).toBe("https://wa.me/554789269780");
+  });
+});

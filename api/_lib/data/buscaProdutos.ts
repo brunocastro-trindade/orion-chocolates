@@ -33,7 +33,30 @@ export function detalharProduto(sku: string): Produto | null {
   return todos.find((p) => p.sku === sku) ?? null;
 }
 
-function normaliza(s: string): string {
+const CAMPOS_ALERGIA = [
+  "ingredientes",
+  "contem_gluten",
+  "contem_leite",
+  "oleaginosas_na_receita",
+  "contem_soja",
+  "contem_ovo",
+  "pode_conter",
+  "adocante",
+  "sem_acucar",
+  "sem_lactose",
+] as const;
+
+// Ficha enviada ao modelo. Sem conferência da equipe, os campos de alergia
+// saem da ficha para o modelo não ter o que afirmar e ser forçado ao handoff.
+export function fichaParaModelo(p: Produto): Record<string, unknown> {
+  if (p.info_alergenos_confirmada) return p;
+  const ficha: Record<string, unknown> = { ...p };
+  for (const campo of CAMPOS_ALERGIA) delete ficha[campo];
+  ficha.alergenos = "NÃO CONFIRMADOS pela equipe: não responda sobre composição ou alergia deste produto; chame gerar_handoff.";
+  return ficha;
+}
+
+export function normaliza(s: string): string {
   return s
     .toLowerCase()
     .normalize("NFD")
@@ -49,7 +72,7 @@ function pontua(p: Produto, q: string): number {
   if (!q) return 0;
   const alvo = {
     nome: normaliza(p.nome),
-    categoria: normaliza(p.categoria),
+    categoria: normaliza(`${p.categoria} ${p.formato}`),
     descricao: normaliza(p.descricao),
     ingredientes: normaliza(p.ingredientes),
   };

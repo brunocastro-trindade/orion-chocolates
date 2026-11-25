@@ -1,8 +1,9 @@
 // Definição e execução das ferramentas do agente.
 // Cada ferramenta recebe `input` já parseado pela Anthropic SDK e devolve
 // o JSON serializado que o modelo vê como `tool_result`.
-import { buscaProdutos, detalharProduto } from "../data/buscaProdutos";
+import { buscaProdutos, detalharProduto, fichaParaModelo } from "../data/buscaProdutos";
 import { carregaConfig } from "../data/carregaConfig";
+import { lojasParaModelo } from "../data/lojas";
 import { geraLinkWhatsapp } from "../handoff/geraLinkWhatsapp";
 
 export type ToolDef = {
@@ -45,7 +46,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: "consultar_politica",
-    description: "Texto oficial por tema: pagamento, entrega-retirada, trocas, conservacao, sazonais-encomendas, fidelidade, lojas.",
+    description: "Texto oficial por tema: pagamento, entrega-retirada, trocas, conservacao, sazonais-encomendas, fidelidade, alergenos.",
     input_schema: {
       type: "object",
       properties: { tema: { type: "string" } },
@@ -81,10 +82,10 @@ export function executaTool(nome: string, input: Record<string, unknown>): ToolR
     case "detalhar_produto": {
       const sku = String(input.sku ?? "");
       const p = detalharProduto(sku);
-      return { conteudo: JSON.stringify(p ?? { erro: "produto não encontrado" }) };
+      return { conteudo: JSON.stringify(p ? fichaParaModelo(p) : { erro: "produto não encontrado" }) };
     }
     case "info_lojas": {
-      return { conteudo: JSON.stringify(carregaConfig().config.lojas) };
+      return { conteudo: JSON.stringify(lojasParaModelo()) };
     }
     case "consultar_politica": {
       const tema = String(input.tema ?? "");

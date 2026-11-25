@@ -17,7 +17,8 @@ export function filtraSaida(texto: string, modoAlergia: boolean): ResultadoFiltr
     if (regra.acao === "reescrever" && regra.substituir_por) {
       out = out.replace(re, regra.substituir_por);
     } else if (regra.acao === "remover") {
-      out = out.replace(re, "").replace(/\s{2,}/g, " ").trim();
+      // Só colapsa espaços/tabs: \s apagaria as quebras de linha da resposta.
+      out = out.replace(re, "").replace(/[ \t]{2,}/g, " ").trim();
     } else if (regra.acao === "bloquear_resposta" && re.test(out)) {
       return { tipo: "bloqueado", texto: mensagens.informacao_ausente };
     }
