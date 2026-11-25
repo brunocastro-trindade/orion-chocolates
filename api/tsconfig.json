@@ -1,0 +1,16 @@
+{
+  // Config das Vercel Functions em api/. Sem este arquivo, o @vercel/node usava
+  // o tsconfig.json da raiz, que não tem compilerOptions: sem "strict", o zod
+  // infere todos os campos como opcionais e o build acusava erros de tipo.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": ["node"]
+  },
+  "include": ["./**/*.ts"]
+}
