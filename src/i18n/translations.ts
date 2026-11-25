@@ -71,7 +71,7 @@ const pt = {
       {
         question: "Quais sabores de chocolate vocês oferecem?",
         answer:
-          "Hoje temos cinco sabores: Passas, Castanhas de Caju, Ao Leite, Meio Amargo e Crocante. Você pode conferir todos eles com mais detalhes na página de Produtos.",
+          "Neste momento, a página de Produtos destaca a nossa linha de Halloween: Fantasma, Abóbora e Trick or Treat. Também produzimos bombons, tabletes, trufas e outros chocolates finos. Fale com a gente para conhecer tudo o que está disponível nas lojas.",
       },
       {
         question: "Vocês vendem para revenda ou em grande quantidade?",
@@ -251,7 +251,7 @@ const en: typeof pt = {
       {
         question: "What chocolate flavors do you offer?",
         answer:
-          "Today we have five flavors: Raisins, Cashews, Milk, Semisweet and Crunchy. You can check them all out in more detail on the Products page.",
+          "Right now, our Products page features our Halloween line: Fantasma (ghost), Abóbora (pumpkin) and Trick or Treat. We also make bonbons, bars, truffles and other fine chocolates. Get in touch to see everything available in our stores.",
       },
       {
         question: "Do you sell for resale or in bulk?",
@@ -431,7 +431,7 @@ const es: typeof pt = {
       {
         question: "¿Qué sabores de chocolate ofrecen?",
         answer:
-          "Hoy tenemos cinco sabores: Pasas, Anacardos, Con Leche, Semiamargo y Crocante. Puedes ver todos con más detalle en la página de Productos.",
+          "En este momento, la página de Productos destaca nuestra línea de Halloween: Fantasma, Abóbora (calabaza) y Trick or Treat. También elaboramos bombones, tabletas, trufas y otros chocolates finos. Contáctanos para conocer todo lo disponible en nuestras tiendas.",
       },
       {
         question: "¿Venden para reventa o en grandes cantidades?",
