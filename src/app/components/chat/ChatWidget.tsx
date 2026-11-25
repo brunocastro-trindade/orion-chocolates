@@ -1,15 +1,30 @@
 // Entry point do widget: botão flutuante + painel aberto.
 // Montagem recomendada: fora de <App /> (ex.: em src/main.tsx), para não
 // herdar transforms do canvas do site.
-import { useState } from "react";
-import ChatPanel from "./ChatPanel";
+import { useEffect, useState } from "react";
+import ChatPanel, { type MensagemPendente } from "./ChatPanel";
+import { EVENTO_ABRIR_CHAT } from "./abrirChat";
 
 export default function ChatWidget() {
   const [aberto, setAberto] = useState(false);
+  const [pendente, setPendente] = useState<MensagemPendente | null>(null);
+
+  // Links do site (abrirChat) abrem o painel e já enviam a opção do menu.
+  useEffect(() => {
+    const onAbrir = (e: Event) => {
+      const texto = (e as CustomEvent<string>).detail;
+      setAberto(true);
+      if (texto) setPendente({ id: Date.now(), texto });
+    };
+    window.addEventListener(EVENTO_ABRIR_CHAT, onAbrir);
+    return () => window.removeEventListener(EVENTO_ABRIR_CHAT, onAbrir);
+  }, []);
 
   return (
     <>
-      {aberto ? <ChatPanel onFechar={() => setAberto(false)} /> : null}
+      {aberto ? (
+        <ChatPanel onFechar={() => setAberto(false)} pendente={pendente} onPendenteEnviada={() => setPendente(null)} />
+      ) : null}
       <button
         type="button"
         aria-label={aberto ? "Fechar chat" : "Abrir chat"}

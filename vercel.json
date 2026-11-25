@@ -3,6 +3,8 @@
   "framework": "vite",
   "buildCommand": "pnpm build",
   "outputDirectory": "dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "functions": {
     "api/chat.ts": {
       "runtime": "@vercel/node@3.2.26",
@@ -10,7 +12,26 @@
       "maxDuration": 60
     }
   },
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "www.orionchocolatesfinos.com.br" }],
+      "destination": "https://orionchocolatesfinos.com.br/:path",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": ".*\\.vercel\\.app" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/(llms.txt|llms-full.txt|robots.txt|.well-known/ai.txt)",
+      "headers": [{ "key": "Content-Type", "value": "text/plain; charset=utf-8" }]
+    }
+  ],
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/).*)", "destination": "/spa-fallback.html" }
   ]
 }

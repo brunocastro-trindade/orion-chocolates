@@ -11,11 +11,13 @@ import TrabalheConosco from "./app/pages/TrabalheConosco.tsx";
 import PoliticaDePrivacidade from "./app/pages/legal/PoliticaDePrivacidade.tsx";
 import PoliticaDeCookies from "./app/pages/legal/PoliticaDeCookies.tsx";
 import TermosDeUso from "./app/pages/legal/TermosDeUso.tsx";
+import SeoManager from "./seo/SeoManager.tsx";
 import "./styles/index.css";
 
 createRoot(document.getElementById("root")!).render(
   <LanguageProvider>
     <BrowserRouter>
+      <SeoManager />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/produtos" element={<Produtos />} />

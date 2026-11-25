@@ -12,7 +12,7 @@ Fonte: questionário do cliente. "(P12)" significa pergunta 12. Em caso de confl
 - Retirada de pedidos do delivery nesta unidade: 9h às 18h (P25). [PENDENTE: confirmar se vale no sábado.]
 
 **Unidade Shopping Park Europeu** (P1, P4, P7)
-- 1º piso, próxima à academia, Rodovia Paul Fritz Kuehnrich, 1600, Itoupava Norte, Blumenau/SC, CEP 89052-380.
+- 1º piso, próxima à academia, Rua 7 de Maio, 1600, Itoupava Norte, Blumenau/SC, CEP 89052-385.
 - WhatsApp: +55 47 8926-9780. Fixo: +55 47 3337-5383. [PENDENTE: número do WhatsApp tem 8 dígitos, confirmar.]
 - Horário do shopping: seg a sáb 10h às 22h; dom 14h às 20h.
 - **Não tem qualquer vínculo com o delivery.** Nunca direcionar assuntos de delivery/pedido para esta unidade.

@@ -5,8 +5,8 @@ import NavigationMenu4 from "@/app/components/ui/navigation-menu-4";
 import Footer from "@/app/components/Footer";
 import { useNavScale } from "@/app/hooks/useNavScale";
 import { useLanguage } from "@/i18n/LanguageContext";
-import imgEmbalagemPresente from "@/assets/images/qualidade-embalagem-presente.png";
-import imgLataDecorada from "@/assets/images/qualidade-lata-decorada.png";
+import imgEmbalagemPresente from "@/assets/images/qualidade-embalagem-presente.webp";
+import imgLataDecorada from "@/assets/images/qualidade-lata-decorada.webp";
 
 const PLAYFAIR = "'Vesper Nocturne', serif";
 const DM_SANS = "'Creato Display', 'DM Sans', sans-serif";

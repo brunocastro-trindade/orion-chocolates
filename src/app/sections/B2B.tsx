@@ -11,12 +11,12 @@ export default function B2B() {
           anchor, so a translation that wraps onto an extra line pushes the
           next piece down instead of overlapping it. */}
       <div className="absolute" style={{ top: 2263, left: 121, width: 1092 }}>
-        <p
-          className="animate-g4 [word-break:break-word] leading-[1.1] text-[#e29647] text-[72px]"
+        <h2
+          className="font-normal animate-g4 [word-break:break-word] leading-[1.1] text-[#e29647] text-[72px]"
           style={{ fontFamily: "'Vesper Nocturne', serif" }}
         >
           {t.b2b.title}
-        </p>
+        </h2>
         <p
           className="animate-g4 [word-break:break-word] mt-6 max-w-[943px] leading-[1.16] not-italic text-[#e29647] text-[24px]"
           style={{ fontFamily: "'Creato Display', 'DM Sans', sans-serif" }}

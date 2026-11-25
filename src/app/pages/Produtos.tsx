@@ -294,6 +294,18 @@ export default function Produtos() {
       style={{ touchAction: "none" }}
       onClick={onClickScreen}
     >
+      {/* Texto semântico para leitores de tela e buscadores: a cena visual é
+          canvas + títulos animados, sem um H1 nem a lista de sabores no DOM. */}
+      <div className="sr-only">
+        <h1>ORION Chocolates — {t.nav.produtos}</h1>
+        <ul>
+          {Object.values(t.produtosFlavors).map((f) => (
+            <li key={f.name}>
+              {f.name}: {f.tagline.join(" ")}
+            </li>
+          ))}
+        </ul>
+      </div>
       {/* shadcn navigation-menu-4, adapted to the ORION brand — wrapped so it
           overlays the scene (z-30, absolute) and clicking it doesn't also
           trigger the whole-screen click-to-advance-flavor handler. Scaled by
