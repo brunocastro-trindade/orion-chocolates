@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import NavigationMenu4 from "@/app/components/ui/navigation-menu-4";
+import NavBarFrame from "@/app/components/NavBarFrame";
 import Footer from "@/app/components/Footer";
 import { useNavScale } from "@/app/hooks/useNavScale";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -35,9 +35,7 @@ export default function Qualidade() {
         className="sticky top-0 z-30 w-full border-b backdrop-blur-sm"
         style={{ height: 64 * scale, borderColor: HEADER_BORDER, background: HEADER_BG }}
       >
-        <div style={{ width: 1440, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-          <NavigationMenu4 />
-        </div>
+        <NavBarFrame />
       </header>
 
       <main className="mx-auto max-w-6xl px-6 pt-20 pb-32">

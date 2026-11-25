@@ -19,12 +19,18 @@ import {
 import { BLOB_PATH, BLOB_VIEWBOX, BLOB_LAYOUT, SPRING, flavors } from "@/app/pages/produtos/flavors";
 import NavigationMenu4 from "@/app/components/ui/navigation-menu-4";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useIsMobile } from "@/app/hooks/useIsMobile";
 
 const N = flavors.length;
 // 1440px reference frame, same as the main site's canvas — the whole scene is
 // authored at this fixed size and scaled as a single block (transform: scale)
 // to fill the viewport, instead of positioning individual elements in vw/vh.
 const CANVAS_WIDTH = 1440;
+// No celular o quadro de referência é mais estreito: com 1440px a cena inteira
+// encolhia para ~27% (produto e textos minúsculos, faixas vazias enormes).
+const MOBILE_CANVAS_WIDTH = 600;
+const MOBILE_TITLE_FONT_SIZE = 72;
+const MOBILE_PRODUCT_SCALE = 0.8;
 const PRODUCT_W = 460;
 const PRODUCT_H = Math.round((PRODUCT_W * 1527) / 1024);
 const SLICE = 4;
@@ -45,29 +51,33 @@ export default function Produtos() {
   const flavor = flavors[index];
   const { t } = useLanguage();
   const flavorText = t.produtosFlavors[flavor.id as keyof typeof t.produtosFlavors];
-  const productW = flavor.productW ?? PRODUCT_W;
-  const productH = flavor.productH ?? PRODUCT_H;
+  const isMobile = useIsMobile();
+  const canvasWidth = isMobile ? MOBILE_CANVAS_WIDTH : CANVAS_WIDTH;
+  const titleFontSize = isMobile ? MOBILE_TITLE_FONT_SIZE : TITLE_FONT_SIZE;
+  const productScale = isMobile ? MOBILE_PRODUCT_SCALE : 1;
+  const productW = (flavor.productW ?? PRODUCT_W) * productScale;
+  const productH = (flavor.productH ?? PRODUCT_H) * productScale;
 
   // Scale the 1440-wide canvas to fill the viewport, same technique as the
   // main site. canvasHeight is derived from the live viewport aspect ratio
   // (not a fixed number, unlike the main site's tall scrolling page) so the
   // scaled canvas always covers exactly 100% width AND height — this page is
   // "tela cheia, sem scroll".
-  const [scale, setScale] = useState(() => window.innerWidth / CANVAS_WIDTH);
-  const [canvasHeight, setCanvasHeight] = useState(() => window.innerHeight / (window.innerWidth / CANVAS_WIDTH));
+  const [scale, setScale] = useState(() => window.innerWidth / canvasWidth);
+  const [canvasHeight, setCanvasHeight] = useState(() => window.innerHeight / (window.innerWidth / canvasWidth));
 
   useEffect(() => {
     const updateSize = () => {
-      const s = window.innerWidth / CANVAS_WIDTH;
+      const s = window.innerWidth / canvasWidth;
       setScale(s);
       setCanvasHeight(window.innerHeight / s);
     };
     updateSize();
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
-  }, []);
+  }, [canvasWidth]);
 
-  const blobSize = Math.min(CANVAS_WIDTH, canvasHeight) * 0.7;
+  const blobSize = Math.min(canvasWidth, canvasHeight) * 0.7;
 
   // ---- continuous "flavor progress" driving canvas + background + title ----
   const progress = useMotionValue(0);
@@ -314,7 +324,7 @@ export default function Produtos() {
           viewport width, instead of rendering at a fixed native size here. */}
       <div
         className="absolute top-0 left-0 z-30"
-        style={{ width: CANVAS_WIDTH, transform: `scale(${scale})`, transformOrigin: "top left" }}
+        style={isMobile ? { width: "100%" } : { width: CANVAS_WIDTH, transform: `scale(${scale})`, transformOrigin: "top left" }}
         onClick={(e) => e.stopPropagation()}
       >
         <NavigationMenu4 />
@@ -323,7 +333,7 @@ export default function Produtos() {
       {/* 1440px reference canvas, scaled as a single block to always cover
           exactly 100% of the viewport width AND height (canvasHeight is
           derived from the live aspect ratio for that reason) */}
-      <div className="absolute top-0 left-0" style={{ width: CANVAS_WIDTH, height: canvasHeight, transform: `scale(${scale})`, transformOrigin: "top left" }}>
+      <div className="absolute top-0 left-0" style={{ width: canvasWidth, height: canvasHeight, transform: `scale(${scale})`, transformOrigin: "top left" }}>
         {/* background — locked in place, only the color cross-fades between
             flavors (no lateral slide; only the product bar below animates) */}
         <motion.div
@@ -349,7 +359,7 @@ export default function Produtos() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35 }}
               className="pointer-events-none absolute leading-none font-normal whitespace-nowrap text-white/90"
-              style={{ fontSize: TITLE_FONT_SIZE, fontFamily: FONT_DISPLAY }}
+              style={{ fontSize: titleFontSize, fontFamily: FONT_DISPLAY }}
             >
               {flavorText.name}
             </motion.p>
@@ -368,9 +378,9 @@ export default function Produtos() {
                 transition={{ duration: 0.35 }}
                 className="absolute font-medium text-[#e29647]"
                 style={{
-                  left: CANVAS_WIDTH * 0.104,
-                  top: canvasHeight * 0.25,
-                  fontSize: 13,
+                  left: canvasWidth * (isMobile ? 0.08 : 0.104),
+                  top: canvasHeight * (isMobile ? 0.17 : 0.25),
+                  fontSize: isMobile ? 18 : 13,
                   fontFamily: FONT_NAV,
                   letterSpacing: "0.1em",
                 }}
@@ -390,8 +400,14 @@ export default function Produtos() {
               animate={{ opacity: ready ? 1 : 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35 }}
-              className="pointer-events-none absolute text-xl font-medium whitespace-pre-line text-white"
-              style={{ left: CANVAS_WIDTH * 0.08, bottom: canvasHeight * 0.18, fontFamily: FONT_NAV }}
+              className="pointer-events-none absolute font-medium whitespace-pre-line text-white"
+              style={{
+                left: canvasWidth * 0.08,
+                bottom: canvasHeight * (isMobile ? 0.14 : 0.18),
+                fontSize: isMobile ? 26 : 20,
+                lineHeight: 1.4,
+                fontFamily: FONT_NAV,
+              }}
             >
               {flavorText.tagline.filter(Boolean).join("\n")}
             </motion.p>
@@ -437,7 +453,7 @@ export default function Produtos() {
               transition={{ duration: 0.35 }}
               className="pointer-events-none absolute leading-none font-normal whitespace-nowrap"
               style={{
-                fontSize: TITLE_FONT_SIZE,
+                fontSize: titleFontSize,
                 fontFamily: FONT_DISPLAY,
                 color: "transparent",
                 WebkitTextStroke: "1.5px rgba(255,255,255,0.95)",
@@ -451,7 +467,7 @@ export default function Produtos() {
         {/* pagination dots — stop propagation so picking a dot doesn't also advance again */}
         <div
           className="absolute z-20 flex items-center gap-1"
-          style={{ right: 64, bottom: 32 }}
+          style={isMobile ? { left: "50%", bottom: canvasHeight * 0.06, translate: "-50% 0" } : { right: 64, bottom: 32 }}
           onClick={(e) => e.stopPropagation()}
         >
           {flavors.map((f, i) => (

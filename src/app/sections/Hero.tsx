@@ -8,7 +8,7 @@ import { CONTATO_ID } from "@/app/sections/Contact";
 // English/Spanish translations, which run shorter or longer.
 // Rolagem suave até a seção de contato (o canvas da home é escalado, então a
 // posição vem do próprio elemento, não de um offset fixo).
-function rolarParaContato(e: MouseEvent<HTMLAnchorElement>) {
+export function rolarParaContato(e: MouseEvent<HTMLAnchorElement>) {
   const alvo = document.getElementById(CONTATO_ID);
   if (!alvo) return;
   e.preventDefault();
@@ -17,6 +17,24 @@ function rolarParaContato(e: MouseEvent<HTMLAnchorElement>) {
 }
 
 const PILL = "inline-flex h-[47px] items-center justify-center whitespace-nowrap rounded-[14px] px-8 text-[20px] leading-[1.1]";
+
+/** Título do hero com o ajuste de kerning no "C" de "chocolates". */
+export function TituloHero({ title }: { title: string }) {
+  return (
+    <>
+      {title.split(/(chocolates)/i).map((part, index) =>
+        part.toLowerCase() === "chocolates" ? (
+          <span key={`${part}-${index}`}>
+            <span className="mr-[0.01em]">{part[0]}</span>
+            {part.slice(1)}
+          </span>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -34,16 +52,7 @@ export default function Hero() {
           className="font-normal hero-title animate-g7 [word-break:break-word] text-[72px] leading-[1.1] text-[#e29647]"
           style={{ fontFamily: "'Vesper Nocturne', serif", fontKerning: "normal" }}
         >
-          {t.hero.title.split(/(chocolates)/i).map((part, index) =>
-            part.toLowerCase() === "chocolates" ? (
-              <span key={`${part}-${index}`}>
-                <span className="mr-[0.01em]">{part[0]}</span>
-                {part.slice(1)}
-              </span>
-            ) : (
-              part
-            ),
-          )}
+          <TituloHero title={t.hero.title} />
         </h1>
         <p
           className="animate-g7 [word-break:break-word] mt-10 max-w-[943px] text-[24px] leading-[1.16] not-italic text-[#e29647]"

@@ -148,11 +148,11 @@ export default function NavigationMenu4() {
           {/* Mobile menu trigger */}
           <Popover>
             <PopoverTrigger asChild>
-              <Button className="group size-8 text-primary md:hidden" variant="ghost" size="icon">
+              <Button className="group size-11 text-primary md:hidden" variant="ghost" size="icon" aria-label="Menu">
                 <svg
                   className="pointer-events-none"
-                  width={16}
-                  height={16}
+                  width={22}
+                  height={22}
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -176,7 +176,7 @@ export default function NavigationMenu4() {
                 </svg>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-64 p-1 md:hidden">
+            <PopoverContent align="start" className="w-64 p-2 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
                   {navigationLinks.map((link, index) => (
@@ -189,7 +189,7 @@ export default function NavigationMenu4() {
                           <ul>
                             {link.items.map((item, itemIndex) => (
                               <li key={itemIndex}>
-                                <NavigationMenuLink href={item.href} className="py-1.5" style={{ fontFamily: IBM_PLEX }}>
+                                <NavigationMenuLink href={item.href} className="py-2.5 text-base" style={{ fontFamily: IBM_PLEX }}>
                                   {item.label}
                                 </NavigationMenuLink>
                               </li>
@@ -197,7 +197,7 @@ export default function NavigationMenu4() {
                           </ul>
                         </>
                       ) : (
-                        <NavigationMenuLink href={link.href} onClick={link.onClick} className="py-1.5 font-bold" style={{ fontFamily: DM_SANS }}>
+                        <NavigationMenuLink href={link.href} onClick={link.onClick} className="py-2.5 text-base font-bold" style={{ fontFamily: DM_SANS }}>
                           {link.label}
                         </NavigationMenuLink>
                       )}
@@ -221,9 +221,9 @@ export default function NavigationMenu4() {
             stays put regardless of how wide the left/right nav groups are. */}
         <a
           href="/"
-          className="absolute top-0 left-1/2 flex h-28 w-[150px] -translate-x-1/2 items-start justify-center rounded-b-full bg-[#251116] pt-3"
+          className="absolute top-0 left-1/2 flex h-20 w-[108px] -translate-x-1/2 items-start justify-center rounded-b-full bg-[#251116] pt-2 md:h-28 md:w-[150px] md:pt-3"
         >
-          <img id="orion-navbar-logo-img" alt="ORION Chocolates" src={imgOrionLogo} className="h-20 w-auto" />
+          <img id="orion-navbar-logo-img" alt="ORION Chocolates" src={imgOrionLogo} className="h-14 w-auto md:h-20" />
         </a>
 
         {/* Right nav items (desktop only), with the language switcher tacked

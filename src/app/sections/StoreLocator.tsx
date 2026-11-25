@@ -42,7 +42,7 @@ const orionPinIcon = L.divIcon({
   popupAnchor: [0, -38],
 });
 
-function StoreLocatorMap() {
+export function StoreLocatorMap() {
   const elRef = useRef<HTMLDivElement>(null);
   const { language, t } = useLanguage();
 

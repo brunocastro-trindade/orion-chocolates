@@ -1,7 +1,7 @@
 import { type ReactNode, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import NavigationMenu4 from "@/app/components/ui/navigation-menu-4";
+import NavBarFrame from "@/app/components/NavBarFrame";
 import Footer from "@/app/components/Footer";
 import { useNavScale } from "@/app/hooks/useNavScale";
 
@@ -62,9 +62,7 @@ export default function LegalPageLayout({
         className="sticky top-0 z-30 w-full border-b bg-white/95 backdrop-blur-sm"
         style={{ height: 64 * scale, borderColor: HEADER_BORDER }}
       >
-        <div style={{ width: 1440, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-          <NavigationMenu4 />
-        </div>
+        <NavBarFrame />
       </header>
 
       <main className="fade-in mx-auto max-w-3xl px-6 pt-20 pb-32">
