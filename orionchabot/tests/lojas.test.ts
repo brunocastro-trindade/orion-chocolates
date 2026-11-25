@@ -13,7 +13,7 @@ describe("info_lojas", () => {
     expect(chaves).toContain("centro");
     expect(chaves).toContain("park_europeu");
     expect(dados.centro.endereco).toMatch(/Curt Hering, 226/);
-    expect(dados.park_europeu.endereco).toMatch(/Paul Fritz Kuehnrich, 1600/);
+    expect(dados.park_europeu.endereco).toMatch(/7 de Maio, 1600/);
     expect(dados.centro.endereco).not.toEqual(dados.park_europeu.endereco);
   });
 

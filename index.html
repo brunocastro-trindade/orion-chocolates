@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orion Chocolates</title>
+  <!-- seo:start -->
+  <!-- No build, este bloco é substituído por rota (scripts/vite-plugin-seo.ts).
+       Em dev fica o padrão da home; src/seo/SeoManager.tsx atualiza na navegação. -->
+  <title>Orion Chocolates | Chocolates finos em Blumenau desde 1958</title>
   <meta name="description"
-    content="Desde 1958, a Orion Chocolates produz chocolates finos em Blumenau (SC), unindo tradição familiar, qualidade e paixão em cada produto." />
+    content="Desde 1958, a Orion Chocolates produz chocolates finos em Blumenau (SC). Conheça nossos sabores, nossas lojas no Centro e no Shopping Park Europeu e as condições para empresas." />
+  <link rel="canonical" href="https://orionchocolatesfinos.com.br/" />
+  <meta property="og:url" content="https://orionchocolatesfinos.com.br/" />
+  <meta property="og:title" content="Orion Chocolates | Chocolates finos em Blumenau desde 1958" />
+  <meta property="og:description" content="Desde 1958, a Orion Chocolates produz chocolates finos em Blumenau (SC)." />
+  <meta name="twitter:title" content="Orion Chocolates | Chocolates finos em Blumenau desde 1958" />
+  <meta name="twitter:description" content="Desde 1958, a Orion Chocolates produz chocolates finos em Blumenau (SC)." />
+  <!-- seo:end -->
+  <meta name="theme-color" content="#251116" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -20,6 +31,41 @@
 
     #root {
       height: 100%;
+    }
+
+    /* Conteúdo estático gerado no build para crawlers; o React o substitui ao montar. */
+    #seo-shell {
+      min-height: 100%;
+      box-sizing: border-box;
+      padding: 48px 24px;
+      background: #251116;
+      color: #f3e6d8;
+      font: 16px/1.6 system-ui, sans-serif;
+    }
+
+    #seo-shell main,
+    #seo-shell header,
+    #seo-shell footer {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    #seo-shell a,
+    #seo-shell h1,
+    #seo-shell h2 {
+      color: #e29647;
+    }
+
+    #seo-shell nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 16px;
+      padding: 0;
+      list-style: none;
+    }
+
+    #seo-shell img {
+      display: none;
     }
   </style>
 

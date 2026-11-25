@@ -6,7 +6,7 @@ import NavigationMenu4 from "@/app/components/ui/navigation-menu-4";
 import Footer from "@/app/components/Footer";
 import { useNavScale } from "@/app/hooks/useNavScale";
 import { useLanguage } from "@/i18n/LanguageContext";
-import imgPrimeiraFuncionaria from "@/assets/images/primeira-funcionaria-orion.png";
+import imgPrimeiraFuncionaria from "@/assets/images/primeira-funcionaria-orion.webp";
 
 const PLAYFAIR = "'Vesper Nocturne', serif";
 const DM_SANS = "'Creato Display', 'DM Sans', sans-serif";

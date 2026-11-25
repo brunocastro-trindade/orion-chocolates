@@ -1,5 +1,6 @@
 // Painel aberto do chat (header, lista, atalhos e input).
 // Fica num container `fixed` isolado — não herda transform do site.
+import { useEffect } from "react";
 import { useChat } from "./useChat";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
@@ -8,8 +9,26 @@ import QuickMenu from "./QuickMenu";
 // Mesmo texto de config/mensagens.yaml (boas_vindas); o front não lê o YAML.
 const BOAS_VINDAS = "Olá! Sou o assistente virtual da Chocolates Orion. Como posso ajudar? 🍫";
 
-export default function ChatPanel({ onFechar }: { onFechar: () => void }) {
+/** Mensagem pedida por um link do site (ver abrirChat.ts); `id` distingue cliques repetidos. */
+export type MensagemPendente = { id: number; texto: string };
+
+export default function ChatPanel({
+  onFechar,
+  pendente = null,
+  onPendenteEnviada,
+}: {
+  onFechar: () => void;
+  pendente?: MensagemPendente | null;
+  onPendenteEnviada?: () => void;
+}) {
   const { messages, acoes, opcoes, carregando, enviar, resetar } = useChat();
+
+  // Envia a opção pedida pelo link assim que o chat estiver livre.
+  useEffect(() => {
+    if (!pendente || carregando) return;
+    onPendenteEnviada?.();
+    void enviar(pendente.texto);
+  }, [pendente, carregando, enviar, onPendenteEnviada]);
 
   return (
     <div

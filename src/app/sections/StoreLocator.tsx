@@ -95,12 +95,12 @@ export default function StoreLocator() {
           translation that wraps onto an extra line pushes the lead (and the
           map below it) down instead of overlapping. */}
       <div className="absolute flex flex-col items-center text-center" style={{ top: 2672, left: 174, width: 1092 }}>
-        <p
-          className="animate-g8 [word-break:break-word] leading-[1.1] text-[#e29647] text-[72px]"
+        <h2
+          className="font-normal animate-g8 [word-break:break-word] leading-[1.1] text-[#e29647] text-[72px]"
           style={{ fontFamily: "'Vesper Nocturne', serif" }}
         >
           {t.storeLocator.title}
-        </p>
+        </h2>
         <p
           className="animate-g8 [word-break:break-word] mt-6 max-w-[943px] leading-[1.16] not-italic text-[#e29647] text-[24px]"
           style={{ fontFamily: "'Creato Display', 'DM Sans', sans-serif" }}

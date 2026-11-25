@@ -15,6 +15,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 import { useLanguage } from "@/i18n/LanguageContext"
 import { LANGUAGE_LABELS, type Language } from "@/i18n/translations"
+import { linkDoChat } from "@/app/components/chat/abrirChat"
 
 const DM_SANS = "'Creato Display', 'DM Sans', sans-serif"
 const IBM_PLEX = "'Creato Display', 'DM Sans', sans-serif"
@@ -38,8 +39,9 @@ function useNavigationLinks() {
       ],
     },
     { href: "/produtos", label: t.nav.produtos },
-    { href: "#", label: t.nav.ondeEncontrar },
-    { href: "#", label: t.nav.contato },
+    // Abrem o chatbot já com a resposta da opção correspondente do menu.
+    { href: "#", label: t.nav.ondeEncontrar, onClick: linkDoChat("Endereços") },
+    { href: "#", label: t.nav.contato, onClick: linkDoChat("Contatos") },
   ]
 }
 
@@ -118,6 +120,7 @@ function DesktopLinks({ links }: { links: NavLink[] }) {
               <NavigationMenuLink asChild>
                 <a
                   href={link.href}
+                  onClick={link.onClick}
                   className={cn("px-2 py-1.5 font-bold text-primary hover:text-primary/80")}
                   style={{ fontFamily: DM_SANS }}
                 >
@@ -194,7 +197,7 @@ export default function NavigationMenu4() {
                           </ul>
                         </>
                       ) : (
-                        <NavigationMenuLink href={link.href} className="py-1.5 font-bold" style={{ fontFamily: DM_SANS }}>
+                        <NavigationMenuLink href={link.href} onClick={link.onClick} className="py-1.5 font-bold" style={{ fontFamily: DM_SANS }}>
                           {link.label}
                         </NavigationMenuLink>
                       )}

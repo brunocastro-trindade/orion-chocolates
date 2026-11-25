@@ -22,7 +22,7 @@ lojas:
 
   park_europeu:
     nome: "Unidade Shopping Park Europeu"
-    endereco: "Rodovia Paul Fritz Kuehnrich, 1600, 1º piso (próxima à academia), Itoupava Norte, Blumenau/SC, CEP 89052-380"
+    endereco: "Rua 7 de Maio, 1600, 1º piso (próxima à academia), Itoupava Norte, Blumenau/SC, CEP 89052-385"
     maps_url: "https://maps.app.goo.gl/z4fZXqnCMmYbg4La6"
     whatsapp: "+55 47 8926-9780"  # PENDENTE: 8 dígitos, confirmar
     telefone_fixo: "+55 47 3337-5383"

@@ -1,9 +1,13 @@
 import imgOrionLogo from "@/assets/figma/orion-logo.svg";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { linkDoChat } from "@/app/components/chat/abrirChat";
+import type { MouseEvent } from "react";
 
 const DM_SANS = "'Creato Display', 'DM Sans', sans-serif";
 
-function FooterColumn({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+type FooterLink = { href: string; label: string; onClick?: (e: MouseEvent) => void };
+
+function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <div>
       <p
@@ -17,6 +21,7 @@ function FooterColumn({ title, links }: { title: string; links: { href: string; 
           <li key={link.label}>
             <a
               href={link.href}
+              onClick={link.onClick}
               className="text-[#e29647] no-underline transition-opacity hover:opacity-70"
               style={{ fontFamily: DM_SANS }}
             >
@@ -35,8 +40,9 @@ export default function Footer() {
   const siteLinks = [
     { href: "/", label: t.footer.siteLinks.inicio },
     { href: "/produtos", label: t.footer.siteLinks.produtos },
-    { href: "#", label: t.footer.siteLinks.ondeEncontrar },
-    { href: "#", label: t.footer.siteLinks.contato },
+    // Abrem o chatbot já com a resposta da opção correspondente do menu.
+    { href: "#", label: t.footer.siteLinks.ondeEncontrar, onClick: linkDoChat("Endereços") },
+    { href: "#", label: t.footer.siteLinks.contato, onClick: linkDoChat("Contatos") },
   ];
 
   const orionLinks = [

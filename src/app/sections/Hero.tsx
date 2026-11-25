@@ -17,8 +17,8 @@ export default function Hero() {
           stagger (driven by a global gsap.to(".animate-g7", ...)) still
           animates title → lead → buttons in sequence. */}
       <div className="absolute" style={{ top: 179, left: 123, width: 1092 }}>
-        <p
-          className="hero-title animate-g7 [word-break:break-word] text-[72px] leading-[1.1] text-[#e29647]"
+        <h1
+          className="font-normal hero-title animate-g7 [word-break:break-word] text-[72px] leading-[1.1] text-[#e29647]"
           style={{ fontFamily: "'Vesper Nocturne', serif", fontKerning: "normal" }}
         >
           {t.hero.title.split(/(chocolates)/i).map((part, index) =>
@@ -31,7 +31,7 @@ export default function Hero() {
               part
             ),
           )}
-        </p>
+        </h1>
         <p
           className="animate-g7 [word-break:break-word] mt-10 max-w-[943px] text-[24px] leading-[1.16] not-italic text-[#e29647]"
           style={{ fontFamily: "'Creato Display', 'DM Sans', sans-serif" }}

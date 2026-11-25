@@ -1,4 +1,4 @@
-import imgArteOrionHistoria from "@/assets/images/arte-orion-historia.png";
+import imgArteOrionHistoria from "@/assets/images/arte-orion-historia.webp";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const PILL = "inline-flex h-[47px] items-center justify-center whitespace-nowrap rounded-[14px] px-8 text-[20px] leading-[1.1]";
@@ -27,12 +27,12 @@ export default function History() {
           three used to be independently top-positioned, which broke as soon
           as a translation needed a 3rd line where Portuguese only needed 2). */}
       <div className="absolute flex flex-col items-end" style={{ top: 869, right: 40, width: 1300 }}>
-        <p
-          className="animate-g6 [word-break:break-word] text-right text-[89px] leading-[1.1] text-[#e29647]"
+        <h2
+          className="font-normal animate-g6 [word-break:break-word] text-right text-[89px] leading-[1.1] text-[#e29647]"
           style={{ fontFamily: "'Vesper Nocturne', serif" }}
         >
           {t.history.title}
-        </p>
+        </h2>
         <p
           className="animate-g6 [word-break:break-word] mt-6 max-w-[1100px] text-right text-[24px] leading-[1.16] not-italic text-[#5c3d31]"
           style={{ fontFamily: "'Creato Display', 'DM Sans', sans-serif" }}
