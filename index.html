@@ -19,6 +19,9 @@
   <meta name="twitter:description" content="Desde 1958, a Orion Chocolates produz chocolates finos em Blumenau (SC)." />
   <!-- seo:end -->
   <meta name="theme-color" content="#251116" />
+  <!-- Com JS, o conteúdo estático para crawlers (#seo-shell) fica oculto e a tela
+       mostra só o fundo da LoadingScreen até o React montar. Sem JS, ele aparece. -->
+  <script>document.documentElement.classList.add("js")</script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -66,6 +69,21 @@
 
     #seo-shell img {
       display: none;
+    }
+
+    .js #root:has(> #seo-shell) {
+      background: #251116;
+    }
+
+    .js #seo-shell {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      min-height: 0;
+      padding: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
   </style>
 
