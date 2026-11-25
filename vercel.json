@@ -32,6 +32,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/spa-fallback.html" }
+    { "source": "/((?!api/).*)", "destination": "/spa-fallback" }
   ]
 }
