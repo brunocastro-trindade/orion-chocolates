@@ -39,9 +39,13 @@ export default function History() {
         >
           {t.history.lead}
         </p>
-        <div className={`${PILL} animate-g6 mt-6 bg-[#e29647] text-[#5c3d31]`} style={{ fontFamily: "'Creato Display', sans-serif" }}>
+        <a
+          href="/nossa-historia"
+          className={`${PILL} animate-g6 mt-6 bg-[#e29647] text-[#5c3d31] no-underline transition-opacity hover:opacity-90`}
+          style={{ fontFamily: "'Creato Display', sans-serif" }}
+        >
           {t.history.cta}
-        </div>
+        </a>
       </div>
     </div>
   );
