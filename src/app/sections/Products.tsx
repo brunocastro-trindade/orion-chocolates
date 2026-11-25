@@ -16,7 +16,7 @@ const GALERIA = [
 ];
 const INTERVALO_MS = 5000;
 
-function GaleriaProdutos() {
+export function GaleriaProdutos() {
   const [atual, setAtual] = useState(0);
 
   useEffect(() => {

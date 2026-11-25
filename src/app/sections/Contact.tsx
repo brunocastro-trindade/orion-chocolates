@@ -3,7 +3,7 @@ import { Mail, MapPin, MessageSquare, Phone, Send, User } from "lucide-react";
 import { STORES } from "@/app/sections/StoreLocator";
 import { useLanguage } from "@/i18n/LanguageContext";
 
-function ContactField({
+export function ContactField({
   icon: Icon,
   placeholder,
   type = "text",

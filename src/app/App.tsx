@@ -11,11 +11,27 @@ import B2B from "@/app/sections/B2B";
 import StoreLocator from "@/app/sections/StoreLocator";
 import Contact from "@/app/sections/Contact";
 import FAQ from "@/app/sections/FAQ";
+import HomeMobile from "@/app/sections/HomeMobile";
+import { useIsMobile } from "@/app/hooks/useIsMobile";
 
 const CANVAS_WIDTH = 1440;
 const CANVAS_HEIGHT = 4300;
 
 export default function App() {
+  const isMobile = useIsMobile();
+
+  return (
+    <>
+      {isMobile ? <HomeMobile /> : <HomeDesktop />}
+      <div style={{ background: '#ffffff', height: 80 }} />
+      <FAQ />
+      <Footer />
+    </>
+  );
+}
+
+// Canvas de 1440px escalado para a largura da tela (layout do Figma).
+function HomeDesktop() {
   const container = useRef<HTMLDivElement>(null);
   const scale = useNavScale();
 
@@ -58,7 +74,6 @@ export default function App() {
   }, [scale]);
 
   return (
-    <>
     <div style={{ background: '#ffffff', width: '100%', height: CANVAS_HEIGHT * scale, overflow: 'hidden', position: 'relative' }}>
       <div className="absolute top-0 left-0 z-30" style={{ width: CANVAS_WIDTH, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <NavigationMenu4 />
@@ -77,9 +92,5 @@ export default function App() {
         <Contact />
       </div>
     </div>
-    <div style={{ background: '#ffffff', height: 80 }} />
-    <FAQ />
-    <Footer />
-    </>
   );
 }
