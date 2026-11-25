@@ -34,6 +34,8 @@ const pt = {
     leadLine2: "nossa marca no conforto da sua casa.",
     ctaProducts: "Conheça nossos produtos",
     ctaShop: "Loja Virtual",
+    galleryTitle: "Conheça mais nossos produtos",
+    galleryLead: "Bombons, trufas, tabletes e presentes feitos em Blumenau desde 1958, com a mesma receita que atravessa gerações.",
   },
   b2b: {
     title: "Leve a qualidade da Orion para o seu negócio.",
@@ -214,6 +216,8 @@ const en: typeof pt = {
     leadLine2: "our brand in the comfort of your home.",
     ctaProducts: "Discover our products",
     ctaShop: "Online Store",
+    galleryTitle: "Discover more of our products",
+    galleryLead: "Bonbons, truffles, bars and gifts made in Blumenau since 1958, with the same recipe passed down through generations.",
   },
   b2b: {
     title: "Bring Orion's quality to your business.",
@@ -394,6 +398,8 @@ const es: typeof pt = {
     leadLine2: "nuestra marca en la comodidad de tu casa.",
     ctaProducts: "Conoce nuestros productos",
     ctaShop: "Tienda Virtual",
+    galleryTitle: "Conoce más de nuestros productos",
+    galleryLead: "Bombones, trufas, tabletas y regalos hechos en Blumenau desde 1958, con la misma receta que atraviesa generaciones.",
   },
   b2b: {
     title: "Lleva la calidad de Orion a tu negocio.",
